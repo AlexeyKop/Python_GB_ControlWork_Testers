@@ -24,12 +24,18 @@ class NoteManager:
             json.dump(notes_data, file, indent=4)
 
     def add_note(self, title, body):
-        # Метод для добавления новой заметки
-        new_id = len(self.notes) + 1
-        new_note = Note(new_id, title, body)
-        self.notes.append(new_note)
-        self.save_notes()
+    # Метод для добавления новой заметки
+        if self.notes:
+        # Если список заметок не пустой, находим максимальный ID и увеличиваем его на 1
+            new_id = max(note.id for note in self.notes) + 1
+        else:
+        # Если список заметок пустой, начинаем с 1
+            new_id = 1
+        new_note = Note(new_id, title, body)  # Создаем новую заметку с полученным ID
+        self.notes.append(new_note)  # Добавляем новую заметку в список
+        self.save_notes()  # Сохраняем заметки в файл
         print(f"Заметка с ID {new_id} добавлена.")
+
 
     def delete_note(self, note_id):
         # Метод для удаления заметки по ID
